@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTS Kriptografi</title>
+</head>
+<body>
+    <script>
+        //Nilai a dan b
+        let a = 17;
+        let b = 20;
+
+        function encryptMessage(msg){
+            ///Buat variabel cipher
+            let cipher = ""; 
+            for (let i = 0; i < msg.length; i++){
+                // Pengecekan apakah variabel kosong
+                if(msg[i] !=' ') 
+                    //Mengenkripsi setiap kata dengan rumus
+                    cipher = cipher + String.fromCharCode((((a * (msg[i].charCodeAt(0)-65) ) + b) % 26) + 65);
+                else
+                    //Jika kosong cukup tambahkan spasi
+                    cipher += msg[i];	 
+            }
+            return cipher;
+        }
+
+        function decryptCipher(cipher){
+            let msg = "";
+            let a_inv = 0;
+            let flag = 0;
+            for (let i = 0; i < 26; i++){
+                //Peneriksaan jika a*i % 26 == 1
+                flag = (a * i) % 26;
+                if (flag == 1){ 
+                    a_inv = i;
+                }
+            }
+            for (let i = 0; i < cipher.length; i++){
+                if(cipher[i]!=' ')
+                    //Mendeskripsi setiap kata dari rentang A-Z
+                    msg = msg + String.fromCharCode(((a_inv * ((cipher[i].charCodeAt(0)+65 - b)) % 26)) + 65);
+                else
+                    //Jika kosong cukup tambahkan spasi
+                    msg += cipher[i]; 
+            }
+
+            return msg;
+        }
+
+        //Masukkan Kata
+        let msg = "TESTER";
+
+        //Cetak Enkripsi
+        let cipherText = encryptMessage(msg);
+        console.log("Encrypted Message is : " + cipherText);
+
+        //Cetak Deskripsi
+        console.log("Decrypted Message is: " + decryptCipher(cipherText));
+    </script>
+</body>
+</html>
